@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Secrets and credentials
+.env.*
+!.env.example
+.aws/
+*.pem
+*.key
+
+# Pulumi and generated state
+**/Pulumi.*.yaml
+**/pulumi.*.yaml
+*.stack.json
+
+# Test and coverage output
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE and operating system
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+infrastructure/.venv/
+infrastructure/__pycache__/

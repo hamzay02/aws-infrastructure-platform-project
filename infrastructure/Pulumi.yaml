@@ -1,0 +1,10 @@
+name: aws-infrastructure-platform
+description: Production-style AWS infrastructure and DevSecOps platform
+runtime:
+  name: python
+  options:
+    toolchain: uv
+config:
+  pulumi:tags:
+    value:
+      pulumi:template: aws-python

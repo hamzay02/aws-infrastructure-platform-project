@@ -35,9 +35,7 @@ The goal is to build a repeatable, security-conscious, and cost-aware applicatio
 
 The intended architecture uses Pulumi to define AWS networking and supporting infrastructure, with a containerized Flask application and an Amazon ECR image repository.
 
-The planned application deployment uses Amazon ECS with AWS Fargate. CloudWatch is used for application logging.
-
-**Important:** The AWS infrastructure is defined using Pulumi, with Amazon ECS and AWS Fargate as the target container deployment platform. The project also includes application testing, containerization, and automated CI workflows.
+The planned application deployment uses Amazon ECS with AWS Fargate. CloudWatch is intended for application logging.
 
 See [Architecture Documentation](docs/evidence/architecture.md) for additional details.
 

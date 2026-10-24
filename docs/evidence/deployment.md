@@ -2,79 +2,87 @@
 
 ## 1. Purpose
 
-This document describes the planned workflow for testing, containerizing, and deploying the AWS Infrastructure Platform application.
+This document describes the development, testing, containerization, and infrastructure workflow for the AWS Infrastructure Platform project.
 
 ## 2. Prerequisites
 
-The development environment uses the following tools:
+The project uses the following tools:
 
 - Python
 - Docker Desktop
 - Pulumi CLI
 - AWS CLI
 - Git
-- Visual Studio Code
+- GitHub Actions
 
-AWS deployment also requires a properly configured AWS identity with only the permissions needed for the deployment.
+## 3. Application Testing
 
-## 3. Local Application Testing
+The Flask application includes unit tests for its main endpoints.
 
-The Flask application can be tested locally using Python's unittest framework.
-
-Run the following command from the project root:
+Run the tests from the project root:
 
 ```bash
 python -m unittest discover -s tests -v
 ```
 
-Review the test results before proceeding.
+The three application unit tests passed during local validation.
 
-## 4. Docker Build
+## 4. Docker Image
 
-The Dockerfile defines how the application image is built.
+The application is packaged using Docker and a Python slim base image.
 
-The planned local build command is:
+Build the image from the project root:
 
 ```bash
 docker build -t aws-infrastructure-platform .
 ```
 
-After building, the container can be tested locally once its runtime configuration is confirmed.
+The Docker image build completed successfully during local validation. Docker Scout was also used to assess the image for known vulnerabilities.
 
-## 5. Infrastructure Deployment
+## 5. Infrastructure as Code
 
-Pulumi and Python will be used to define the AWS infrastructure.
+Pulumi and Python are used to define the intended AWS infrastructure.
 
-The intended workflow is:
+The infrastructure workflow includes:
 
-1. Review the infrastructure code.
-2. Confirm the AWS identity and permissions.
-3. Inspect the proposed changes with `pulumi preview`.
-4. Review the planned resources and potential costs.
-5. Deploy only after the changes and account status have been verified.
+1. Reviewing the infrastructure code.
+2. Confirming AWS identity and permissions.
+3. Inspecting proposed infrastructure changes with `pulumi preview`.
+4. Reviewing resource configuration and expected costs.
+5. Applying changes only after reviewing the proposed deployment.
 
-Do not run `pulumi up` until the AWS account is cleared for deployment and the infrastructure code is ready.
+The infrastructure code is maintained in the `infrastructure/` directory.
 
-## 6. CI/CD Pipeline
+## 6. Continuous Integration
 
-GitHub Actions is planned to automate application tests and support deployment.
+GitHub Actions automates application testing and Docker image building.
 
-The workflow will be configured to use restricted AWS permissions and secure authentication. Deployment will require a review of the changes and expected costs.
+The workflow is defined in `.github/workflows/ci.yml`.
 
-## 7. Cleanup
+The CI workflow completed successfully, including the application tests and Docker image build.
 
-When temporary AWS resources are no longer required:
+## 7. Security and Cost Management
 
-1. Identify the resources created by the project.
-2. Check for dependencies and retained data.
-3. Review the resources that Pulumi proposes to remove.
-4. Remove the resources safely.
-5. Review AWS billing for any remaining charges.
+The project emphasizes secure configuration and cost awareness.
 
-Deleting infrastructure does not necessarily eliminate every possible cost, so billing and resource usage should still be checked.
+Practices include:
 
-## 8. Current Status
+- Avoiding hardcoded AWS credentials.
+- Reviewing IAM permissions and network access.
+- Assessing Docker image vulnerabilities.
+- Reviewing proposed infrastructure changes before deployment.
+- Identifying temporary resources and checking for remaining charges during cleanup.
 
-Local application tests have passed, the Dockerfile exists, and the Pulumi project has been initialized. The AWS deployment workflow has not yet been implemented and verified.
+Pulumi can be used to manage the lifecycle of infrastructure defined by the project. AWS resource inventories and billing should be checked independently when verifying cleanup.
 
-This guide will be updated as deployment steps are completed and tested.
+## 8. Deployment Architecture
+
+The application is designed for container deployment using Amazon ECS and AWS Fargate, with Amazon ECR for image storage and Amazon CloudWatch for logging.
+
+Pulumi provides the infrastructure-as-code definition for the intended AWS environment. The repository documents the architecture and workflow alongside the local testing and CI evidence.
+
+## 9. Project Status
+
+The Flask application, unit tests, Docker build, Pulumi infrastructure code, and GitHub Actions CI workflow are documented in this repository. The architecture, security considerations, and cost-management practices are covered in the supporting documentation.
+
+This is a personal learning and portfolio project intended to demonstrate cloud engineering concepts and implementation practices.
